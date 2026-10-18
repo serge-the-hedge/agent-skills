@@ -31,7 +31,7 @@ function update(names: string[]) {
     const action = existsSync(join(root, prefix)) ? "pull" : "add";
     console.log(`\n${name}: ${action} ${repo} ${branch}`);
     if (!git("subtree", action, `--prefix=${prefix}`, "--squash", `https://github.com/${repo}.git`, branch)) {
-      fail(`Resolve the conflict in ${prefix}, commit, then run: agent-skills update`);
+      fail(`Stopped at ${name}. If git reported a conflict, resolve it in ${prefix}, commit, and rerun.`);
     }
   }
   link();
@@ -81,11 +81,12 @@ function selectedSkills() {
   for (const { dir, link } of sources) {
     const found = findSkills(join(root, dir));
     for (const name of link === "all" ? found.keys() : link) {
-      const paths = found.get(name) ?? [];
+      const [path, ...others] = found.get(name) ?? [];
       const taken = selected.get(name);
-      if (paths.length !== 1) errors.push(`${dir} has ${paths.length} skills named ${name}.`);
-      else if (taken) errors.push(`${name} is in both ${relative(root, taken)} and ${relative(root, paths[0]!)}.`);
-      else selected.set(name, paths[0]!);
+      if (!path) errors.push(`${dir} has no skill named ${name}.`);
+      else if (others.length) errors.push(`${dir} has several skills named ${name}.`);
+      else if (taken) errors.push(`${name} is in both ${relative(root, taken)} and ${relative(root, path)}.`);
+      else selected.set(name, path);
     }
   }
   if (errors.length) fail(errors.join("\n"));
