@@ -18,7 +18,9 @@ agent-skills diff <upstream>        Show my committed edits to vendor/<upstream>
 
 `update` refuses to run with uncommitted changes and stops at the first merge conflict. `link` fails loudly if two skills share a name or something it didn't create is in the way.
 
-To add an upstream, add it to `upstreams.ts` and run `agent-skills update <name>`.
+`link` also hides upstream plugin manifests (`vendor/*/.claude-plugin/` and the like) from disk with a sparse checkout; they stay in git. Codex follows each symlink back here, and a manifest above a skill makes it rename `grilling` to `mattpocock-skills:grilling`, which breaks `$grilling`.
+
+To add an upstream, add it to `upstreams.ts` and run `agent-skills update <name>`. To remove one, delete it from `upstreams.ts`, run `git rm -r --sparse vendor/<name>` (`--sparse` catches the hidden manifests), commit, and run `agent-skills link`.
 
 ## Writing skills
 

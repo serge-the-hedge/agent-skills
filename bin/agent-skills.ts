@@ -42,6 +42,7 @@ function update(names: string[]) {
  * Leaves alone anything it didn't create, and reports it if it's in the way.
  */
 function link() {
+  hidePluginManifests();
   const skills = selectedSkills();
   const added = new Set<string>();
   const removed = new Set<string>();
@@ -109,6 +110,14 @@ function diff(name: string | undefined, args: string[]) {
   const snapshot = gitOutput("log", "-1", "--format=%H", `--grep=^Squashed 'vendor/${name}/'`);
   if (!snapshot) fail(`vendor/${name} hasn't been pulled yet. Run: agent-skills update ${name}`);
   git("diff", ...args, snapshot, `HEAD:vendor/${name}`);
+}
+
+/**
+ * Keeps upstream plugin manifests in git but out of the working tree. Codex follows a skill's symlink back here,
+ * finds a manifest above it, and renames the skill to `<plugin>:<skill>`, so `$grilling` would stop working.
+ */
+function hidePluginManifests() {
+  gitOutput("sparse-checkout", "set", "--no-cone", "/*", "!/vendor/*/.claude-plugin/", "!/vendor/*/.codex-plugin/", "!/vendor/*/.cursor-plugin/");
 }
 
 /** The target of the symlink at path, or undefined if path isn't a symlink. */
