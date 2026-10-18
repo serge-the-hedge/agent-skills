@@ -29,12 +29,10 @@ function update(names: string[]) {
     const { repo, branch } = upstreams[name];
     const prefix = `vendor/${name}`;
     const action = existsSync(join(root, prefix)) ? "pull" : "add";
-    const before = gitOutput("rev-parse", "HEAD");
     console.log(`\n${name}: ${action} ${repo} ${branch}`);
     if (!git("subtree", action, `--prefix=${prefix}`, "--squash", `https://github.com/${repo}.git`, branch)) {
       fail(`Resolve the conflict in ${prefix}, commit, then run: agent-skills update`);
     }
-    if (action === "pull") git("--no-pager", "diff", "--stat", before, "HEAD", "--", prefix);
   }
   link();
 }
@@ -67,8 +65,8 @@ function link() {
   }
   for (const name of removed) console.log(`${added.has(name) ? "~" : "-"} ${name}`);
   for (const name of added) if (!removed.has(name)) console.log(`+ ${name}`);
-  console.log(`${skills.size} skills linked into ${agentDirs.join(" and ")}.`);
   if (blocked.length) fail(`Something else is already there; move it away and rerun:\n${blocked.join("\n")}`);
+  console.log(`${skills.size} skills linked into ${agentDirs.join(" and ")}.`);
 }
 
 /** The skills to link, by name: everything in skills/, plus each upstream's selection. Fails on missing or clashing names. */
