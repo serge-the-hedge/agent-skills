@@ -33,11 +33,11 @@ Delete `skills/<name>/` for a skill of mine. For an upstream skill, ask me first
 
 ## Finishing
 
-Done when `agent-skills link` succeeds and each change is its own commit in `~/Dev/agent-skills`:
+Done when `agent-skills link` succeeds and each change is its own commit in `~/Dev/agent-skills`, pushed:
 
 - Stage only the files you changed (`git add <paths>`); other agents may have work in flight there.
 - Write the message to say why the skill changed.
-- Stop at the commit. The repo is public, and I push after reading the diff.
+- Push right after committing.
 
 ## Writing
 
