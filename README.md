@@ -22,9 +22,9 @@ agent-skills diff <upstream>        Show my committed edits to vendor/<upstream>
 
 To add an upstream, add it to `upstreams.ts` and run `agent-skills update <name>`. To remove one, delete it from `upstreams.ts`, run `git rm -r --sparse vendor/<name>` (`--sparse` catches the hidden manifests), commit, and run `agent-skills link`.
 
-## Writing skills
+## Adding and editing skills
 
-When one of my skills refers to another skill, use the full path, `~/.agents/skills/<name>/SKILL.md`. A relative path like `../<name>` breaks here, because `skills/` and each `vendor/` folder sit apart.
+The rules for creating, editing, and committing skills live in [`skills/agent-skills/SKILL.md`](skills/agent-skills/SKILL.md), which every agent sees as the `agent-skills` skill.
 
 ## Setup on a new machine
 
