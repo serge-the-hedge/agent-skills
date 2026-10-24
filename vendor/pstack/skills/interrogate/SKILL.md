@@ -26,11 +26,11 @@ Before spawning reviewers, state the intent in one clear paragraph from the user
 
 ## Step 3, Spawn Reviewers
 
-Launch all reviewers in a single message, one `delegate_task` child per entry on the `interrogate reviewers` line in `~/.config/pstack/pstack-models.md`, labeled Reviewer A, B, and so on to match the entry count. If the file or that line is missing, run Reviewer A on the parent thread's model and one more reviewer on the strongest model of each other provider that `orchestrator_capabilities` reports with `canRunChildTask`, up to three reviewers. Say so and suggest `/setup-pstack`.
+Launch all reviewers in a single message, one `delegate_task` child per entry on the `interrogate reviewers` line in `~/.config/pstack/pstack-models.md`, labeled Reviewer A, B, and so on to match the entry count. If the file or that line is missing, seat the reviewers per Panel seats in the Subagents section of the **poteto-mode** skill. Say so and suggest `/setup-pstack`.
 
 Each reviewer gets the title `interrogate reviewer <label>`, a brief that says read-only: inspect only, no writes, no git commands, and `target` set from its entry per the Subagents section. Omit `target` for an `auto` or `inherit-parent` entry, so that reviewer runs on the parent model.
 
-If `delegate_task` rejects a configured entry, run that reviewer on the closest model of the same provider that `orchestrator_capabilities` lists and say so. Do not block the review on it. Never treat an alias entry as a rejected entry or apply the fallback to it.
+If `delegate_task` rejects a configured entry, replace that reviewer per Panel seats and say so. Do not block the review on it. Never treat an alias entry as a rejected entry or apply the fallback to it.
 
 Read `references/reviewer-prompt.md` and fill in the same template for every reviewer with the stated intent, the diff or file contents, the rubric from `references/rubric.md`, and the code-quality lens from `references/code-quality-review.md`. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.
 

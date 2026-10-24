@@ -79,7 +79,7 @@ interrogate reviewers: <entry>, <entry>, <entry>
 - An entry is `<providerInstanceId>/<model>` with an optional `(<effort>)`, validated against `orchestrator_capabilities`. A model with no effort option takes no `(<effort>)`. `inherit-parent` (or `auto`) runs the role on the parent thread's model: omit `target`.
 - Pass an entry as `target: {"providerInstanceId": ..., "model": ..., "options": {"<effort option id>": "<effort>"}}`. The effort option id is the one `orchestrator_capabilities` lists for that model (`effort` on Claude, `reasoningEffort` on Codex).
 - The effort ladder is `max` > `xhigh` > `high` > `medium` > `low`. Options outside it (`ultra`, `ultracode`, `ultrathink`) are never chosen by a budget.
-- A role with no line keeps the skill's default. With no file at all, single roles run `inherit-parent`, and a panel role takes the parent model plus the strongest model of each other provider that `orchestrator_capabilities` reports with `canRunChildTask`, up to three entries. Say so in the reply and suggest `/setup-pstack`.
+- A role with no line keeps the skill's default. With no file at all, single roles run `inherit-parent`, and a panel role is seated per Panel seats in `skills/poteto-mode/SKILL.md`. Say so in the reply and suggest `/setup-pstack`.
 - Role names stay exactly as upstream: `feature, refactoring`, `bug-fix`, `perf-issue`, `hillclimb`, `judgment and prose`, `hardest tasks`, `how explorer`, `how explainer`, `why investigators`, `why synthesizer`, `reflect tooling`, `reflect judgment, divergent, synthesizer`, `arena runners`, `arena cross-judge pool`, `swarm workers`, `architect runners`, `interrogate reviewers`.
 
 ## Translation table
