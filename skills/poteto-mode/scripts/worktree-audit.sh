@@ -78,6 +78,14 @@ origin/*) git fetch origin "+refs/heads/${base#origin/}:refs/remotes/$base" --qu
 esac
 git rev-parse --verify --quiet "$base^{commit}" >/dev/null 2>&1 || { echo "error: base ref not found: $base" >&2; exit 1; }
 
+# GNU coreutils (Linux, Homebrew gnubin) reads `date -r` as a file, so pick
+# the date flag once.
+if date -d @0 >/dev/null 2>&1; then
+	fmt_day() { date -d "@$1" '+%Y-%m-%d'; }
+else
+	fmt_day() { date -r "$1" '+%Y-%m-%d'; }
+fi
+
 # PR state by branch, fetched once as [{number, state, head}] with a lowercase
 # state. Empty if gh is unavailable.
 prs=$(mktemp)
@@ -129,7 +137,7 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 	wt_real=$(CDPATH= cd -- "$wt" 2>/dev/null && pwd -P || printf '%s' "$wt")
 	f=$(printf '%s\n' "$acts" | awk -F'\t' -v p="$wt_real" '$1 == p' | sort -t$'\t' -k2,2 -rn | head -1)
 	if [ -n "$f" ]; then last_ts=$(printf '%s' "$f" | cut -f2)
-		last="$(date -r "$last_ts" '+%Y-%m-%d' 2>/dev/null)/$(printf '%s' "$f" | cut -f3)"; fi
+		last="$(fmt_day "$last_ts" 2>/dev/null)/$(printf '%s' "$f" | cut -f3)"; fi
 	recent=$([ "$last_ts" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)
 
 	case "$dirty" in wip:*) bucket=hold-wip ;; *)
