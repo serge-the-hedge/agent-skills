@@ -46,6 +46,8 @@ Present the synthesizer's full Accepted / Rejected / Backlog output and wait for
 
 File each Backlog item to your team's devex or backlog tracker without waiting. Only the Accepted list waits for approval.
 
+Never edit an installed pstack skill under `~/.agents/skills/` or `~/.claude/skills/`, because `npx skills update -g` overwrites it. Before approval, show its destination: a copy under a new name in the project, at `.agents/skills/<new-name>/` with the symlink `.claude/skills/<new-name> -> ../../.agents/skills/<new-name>`, since one name both global and in the project leaves Codex loading neither. After approval, copy the skill folder there, set its frontmatter `name` to the new name, and edit the copy. The copy no longer sits beside the other pstack skills, so rewrite each sibling reference in it, `../<name>/...` and the skill-files sentence alike, to the installed sibling under `~/.agents/skills/<name>/`, which both harnesses' installs resolve to. Check that every rewritten path exists before declaring the edit done. Never open a PR or push.
+
 Follow each approved row's Routing exactly:
 
 - Trivial existing-skill edit (a one-line bullet, a tightened sentence, a stale fact corrected): the parent does it directly.

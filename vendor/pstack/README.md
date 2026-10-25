@@ -40,11 +40,12 @@ Codex threads run every skill as `$<name>` where this README and the skills writ
 | `/poteto-help` | You're new to pstack, or unsure which skill, playbook, or principle fits. |
 | `/setup-pstack` | You want to pick which models pstack uses per role. |
 | `/in-your-own-words` | You want the agent to play back your goal and the problem before it starts. |
-| `/sharpen` | You want a task aimed higher before work starts: more expert, more outcome-focused, not overspecified. |
+| `/sharpen` | You want a prompt rewritten deeper, not bigger, before you send it. It returns the prompt and doesn't do the task. |
 | `/how` | You want a walkthrough of how a subsystem works. |
 | `/why` | You want to know why something was built this way, from every evidence source your MCP tools reach. |
 | `/recall` | You're starting or resuming work and want your recent context rebuilt from your own threads. |
 | `/ketchup` | You want what changed in this chat since your last message, in a few plain sentences and small visuals, with just enough context on each action item to make the call. |
+| `/ketchup-video` | You want a `/ketchup` catch-up as a short silent video of slides, with the waiting calls as text under it. |
 | `/blast-radius` | A small-looking change might break something else, and you want the safety fact proven by running code. |
 | `/architect` | You're about to write code that crosses a function boundary and want its shape settled first. |
 | `/arena` | You want N parallel attempts at the same thing, then the best parts of each. |
@@ -64,6 +65,9 @@ Codex threads run every skill as `$<name>` where this README and the skills writ
 | `/show-me-your-work` | You want a reviewable decision trail. |
 | `/create-verification-skill` | Your project has no scripted way to prove app behavior. |
 | `/maintain-verification-skill` | Your verify skill's feature map has drifted from the app. |
+| `/create-formal-verification-skill` | You want a race, invariant, or other property that tests rarely reach formally verified, with a project-local skill to recheck it. |
+| `/maintain-formal-verification-skill` | The code a formal verification covers changed, and you want it back in line and each failure called drift or a bug. |
+| `/statechart` | You want how a system moves between states drawn as a chart checked by a TLA+ model, with each bug as a numbered path, or an agreed chart turned into a TLA+ skeleton. |
 | `/unslop` | You're cleaning up writing. |
 | `/bro` | You want the last message restated in plain language. |
 | `/technical-writing` | Docs, RFCs, readmes, PR descriptions, commit messages. |
