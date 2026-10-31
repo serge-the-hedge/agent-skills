@@ -14,7 +14,7 @@ description: "Every skill in ~/.agents/skills and ~/.claude/skills (mine, pstack
 - **Upstream**: `vendor/<upstream>/`, pulled from pstack, Matt Pocock's skills, and good-css by `agent-skills update`. `upstreams.ts` picks which of their skills get linked.
 - Anything in the agent folders that isn't a symlink into the repo (`blabla-*`, Claude's `synced/`, Codex's `.system/`) is owned by the tool that installed it, which also updates it.
 
-`realpath ~/.agents/skills/<name>` tells you which one a skill is.
+`agent-skills where <name>` tells you which one a skill is.
 
 ## Creating
 
@@ -25,7 +25,7 @@ Create the skill at `~/Dev/agent-skills/skills/<name>/SKILL.md`; that path takes
 Route by what the change is:
 
 - A **preference** of mine (style, defaults, how I like to work) goes in my own skills: extend one in `skills/`, or create one. My files never conflict with upstream updates.
-- A **fix** for something an upstream skill gets wrong for me goes straight into `vendor/`. Committed upstream edits survive `agent-skills update`, but each can conflict when upstream changes the same lines, so keep them small. After editing pstack, run `node ~/Dev/agent-skills/vendor/pstack/scripts/check-t3-native.mjs <name>` until it exits 0.
+- A **fix** for something an upstream skill gets wrong for me goes straight into `vendor/`. Committed upstream edits survive `agent-skills update`, but each can conflict when upstream changes the same lines, so keep them small. If `agent-skills update` stops at a conflict, `agent-skills conflicts` lists the files and the steps to finish. After editing pstack, run `node ~/Dev/agent-skills/vendor/pstack/scripts/check-t3-native.mjs <name>` until it exits 0.
 
 ## Removing
 

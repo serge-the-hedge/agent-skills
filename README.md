@@ -14,9 +14,11 @@ Every skill here is symlinked into `~/.claude/skills` (Claude Code) and `~/.agen
 agent-skills update [upstream...]   Pull upstreams (all by default) into vendor/, one commit each, then link.
 agent-skills link                   Point the agent skill folders at the skills in this repo.
 agent-skills diff <upstream>        Show my committed edits to vendor/<upstream> since its last pull.
+agent-skills where [skill]          Show where skills live, or the real path of one skill.
+agent-skills conflicts              Show what a stopped update left unresolved, and how to finish it.
 ```
 
-`update` refuses to run with uncommitted changes and stops at the first merge conflict. `link` fails loudly if two skills share a name or something it didn't create is in the way.
+`update` refuses to run with uncommitted changes and stops at the first merge conflict; `conflicts` then lists the files left and the steps to finish. `link` fails loudly if two skills share a name or something it didn't create is in the way.
 
 `link` also hides upstream plugin manifests (`vendor/*/.claude-plugin/` and the like) from disk with a sparse checkout; they stay in git. Codex follows each symlink back here, and a manifest above a skill makes it rename `grilling` to `mattpocock-skills:grilling`, which breaks `$grilling`.
 
