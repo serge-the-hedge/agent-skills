@@ -97,7 +97,7 @@ interrogate reviewers: <entry>, <entry>, <entry>
 | "each worker gets its own worktree" | `t3_thread_launch` with `workspaceStrategy` (`worktree`, `existing_worktree` with `worktreePath`, or `root`). |
 | `/loop`, polling loops, wake-ups | `watch_pull_request` for PR events (checks finish, comments, conflicts), `schedule_task` for a time cadence (`{"type":"interval","everyMs":...}` or `{"type":"fixed_time","timeOfDay":"09:00","weekdays":[1,2,3,4,5]}`), `run_scheduled_task_now` for an immediate tick. Child completions arrive as notifications. Arm it and end the turn. |
 | `scripts/watch-pr/watch-pr` as a blocking poller | `watch_pull_request` does the waiting. On each wake, `watch-pr` runs once and gives the verdict. |
-| `gt` (Graphite) stack bookkeeping | `list_thread_pull_requests` (any `threadId`) for stack order and branches. `orch frontier set --chain <file>` adds head SHAs, the generation and the pin check. `gh` is the forge. |
+| `gt` (Graphite) stack bookkeeping | `list_thread_pull_requests` (any `threadId`) for stack order and branches, `gh pr view` for head SHAs and state. `gh` is the forge. |
 | A run's built-in PR tool, `draft: false` | `gh pr create` (ready unless the playbook says draft), then `link_pull_request` with the URL at once, for every layer. `link_pull_request` links to the calling thread, so a child that opens a PR links it and reports the URL, and the parent links it too. `unwatch_pull_request` before handing a PR back to the user. |
 | Origin forge (`origin pr ...`, `command -v origin`) | `gh` only. |
 | `agent-transcripts/*.jsonl`, `~/.cursor/projects/...` | `t3_thread_search` to find threads (a bounded hint, not an index), `t3_thread_list` (with `includeSubagents`, paged by `cursor`) to enumerate, `t3_thread_read` for a timeline: `view: "activity"` includes tool calls, follow `nextPosition` until `hasMore` is false, and recover a truncated item with `itemId` plus `textOffset`. `t3_thread_list` has no worktree field; `t3_thread_read` returns `thread.worktreePath`. |
@@ -121,7 +121,6 @@ interrogate reviewers: <entry>, <entry>, <entry>
 ## Scripts
 
 - `watch-pr`: the one-shot GitHub merge verdict. No poll loop. `watch_pull_request` waits. A run reads GitHub once and prints the verdict last; `WAITING` (nothing to do until the next wake) exits 5.
-- `orch`: coordinator bookkeeping. The store lives at `~/.local/state/pstack/orchestrate/<project-slug>/` (`ORCH_STORE`), outside any worktree, so threads in different worktrees share it. `inbox push` records a `delegate_task` completion by taskId. `frontier set --chain` reads a `list_thread_pull_requests` dump. No `gt`.
 - `worktree-audit.sh`: `--activity <tsv>` supplies the last T3 activity per worktree, built from `t3_thread_list` plus `t3_thread_read` (`worktreePath`, latest run). T3 worktrees live in `~/.t3/worktrees/<project>/`.
 - `check-plan.mjs`: its required markers follow the ported `multi-phase-plan.md`.
 - `bootstrap.ts`, `package.json`, `bun.lock`: unchanged. Bun installs `commander` beside the scripts on first run.
