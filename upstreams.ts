@@ -40,4 +40,5 @@ export const upstreams = {
     ],
   },
   "good-css": { repo: "vojtaholik/good-css", branch: "main", link: "all" },
+  improve: { repo: "shadcn/improve", branch: "main", link: "all" },
 } satisfies Record<string, Upstream>;
